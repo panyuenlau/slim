@@ -73,6 +73,7 @@ tasks:
           --remote agntcy/ns/chat                                                     \
           --invites agntcy/ns/client-1                                                \
           --invites agntcy/ns/client-2                                                \
+          --invites agntcy/ns/client-3                                                \
           --enable-mls {{.EXTRA_ARGS}}
     vars:
       EXTRA_ARGS: '{{.EXTRA_ARGS | default ""}}'
@@ -94,6 +95,17 @@ tasks:
       - |
         uv run --package slim-bindings-examples group                                 \
           --local agntcy/ns/client-2                                                  \
+          --slim '{"endpoint": "http://localhost:46357", "tls": {"insecure": true}}'  \
+          --shared-secret "secret" {{.EXTRA_ARGS}}
+    vars:
+      EXTRA_ARGS: '{{.EXTRA_ARGS | default ""}}'
+
+  python:example:group:client-3:
+    desc: "Group client example - Waits to be invited to a channel and receives encrypted messages"
+    cmds:
+      - |
+        uv run --package slim-bindings-examples group                                 \
+          --local agntcy/ns/client-3                                                  \
           --slim '{"endpoint": "http://localhost:46357", "tls": {"insecure": true}}'  \
           --shared-secret "secret" {{.EXTRA_ARGS}}
     vars:

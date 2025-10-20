@@ -122,7 +122,12 @@ async def keyboard_loop(session_ready, shared_session_container, local_app):
 
             if user_input.lower() in ("exit", "quit"):
                 # Also terminate the receive loop.
-                await local_app.delete_session(shared_session_container[0])
+                print_formatted_text("Goodbye!", style=custom_style)
+                try:
+                    await local_app.delete_session(shared_session_container[0])
+                    print_formatted_text("Session deleted", style=custom_style)
+                except Exception as e:
+                    print_formatted_text(f"-> Error deleting session: {e}", style=custom_style)
                 break
 
             # Send message to the channel_name specified when creating the session.
@@ -219,6 +224,8 @@ async def run_client(
             await local_app.set_route(invite_name)
             await created_session.invite(invite_name)
             print(f"{local} -> add {invite_name} to the group")
+
+        # await local_app.delete_session(created_session)
 
     # Launch the receiver immediately.
     tasks.append(
